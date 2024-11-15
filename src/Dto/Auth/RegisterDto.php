@@ -14,7 +14,7 @@ final class RegisterDto
         #[Assert\Email]
         public string $email,
         #[Assert\NotBlank]
-        #[Assert\Length(min: 6)]
+        #[Assert\Length(min: 6, minMessage: 'This password is too short. It should have {{ limit }} characters or more.', maxMessage: 'This password is too long. It should have {{ limit }} characters or less.')]
         public string $password,
     ) {}
 }

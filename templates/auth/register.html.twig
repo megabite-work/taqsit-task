@@ -1,1 +1,54 @@
+{% extends 'base.html.twig' %}
 
+{% block content %}
+	<div class="container">
+		<div class="row mt-3">
+			<div class="col-12 mx-auto tm-login-col">
+				<div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+					<div class="row">
+						<div class="col-12 text-center">
+							<?php
+                        if (isset($_SESSION['message'])) : ?>
+							<p class="text-warning h5"><?= $_SESSION['message']; ?></p>
+							<?php
+                            unset($_SESSION['message']);
+                        endif
+                        ?>
+							<h2 class="tm-block-title mb-4">Welcome to Registration</h2>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<form action="{{ path('app_register') }}" method="POST" class="tm-login-form">
+								<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+								<div class="form-group">
+									<label for="email">Email</label>
+									<input name="email" type="text" class="form-control validate" id="login" required placeholder="email@example.com"/>
+								</div>
+								<div class="form-group">
+									<label for="password">Password</label>
+									<div class="d-flex">
+										<input name="password" type="password" class="form-control validate" id="password" required placeholder="password"/>
+										<span class="pr-2" style="background-color: #54657d; color:white;">
+											<i class="far fa-eye mt-3" style="cursor: pointer;" onclick="document.getElementById('password').getAttribute('type') === 'password' ? document.getElementById('password').setAttribute('type', 'text') : document.getElementById('password').setAttribute('type', 'password');"></i>
+										</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<button type="submit" class="btn btn-primary btn-block text-uppercase">
+										Sign Up
+									</button>
+								</div>
+								<div>
+									<h5 class="text-center text-warning">Do you have an account?</h5>
+									<a href="{{ path('app_show_login') }}" class="btn btn-primary btn-block text-uppercase">
+										Sign In
+									</a>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endblock %}
