@@ -27,6 +27,10 @@ class Post
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?DateTime $created_at;
 
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'posts')]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: false)]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->created_at = new DateTime();
@@ -73,8 +77,20 @@ class Post
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTime
+    public function getCreatedAt(): DateTime
     {
         return $this->created_at;
+    }
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }
