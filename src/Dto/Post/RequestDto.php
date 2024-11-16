@@ -11,7 +11,7 @@ final class RequestDto
 	public function __construct(
 		#[Groups(['post:create', 'post:update'])]
 		#[Assert\NotBlank(groups: ['post:create'])]
-		#[Assert\Length(max: 255)]
+		#[Assert\Length(max: 255, maxMessage: 'This title is too long. It should have {{ limit }} characters or less.')]
 		public ?string $title,
 		#[Groups(['post:create', 'post:update'])]
 		#[Assert\NotBlank(groups: ['post:create'])]

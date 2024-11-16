@@ -10,6 +10,6 @@ final class IndexAction
 
     public function __invoke(): array
     {
-        return ['success' => true, 'data' => $this->postRepository->findAll()];
+        return ['posts' => $this->postRepository->findAll()];
     }
 }

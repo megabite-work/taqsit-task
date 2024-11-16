@@ -3,50 +3,24 @@
 {% block content %}
 	<div class="container tm-mt-big tm-mb-big">
 		<div class="row">
-			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
-				<div class="tm-bg-primary-dark tm-block tm-block-h-auto">
-					<div class="row">
-						<div class="col-12">
-							<h2 class="tm-block-title d-inline-block">Create New Document</h2>
-							<p class="text-warning">
-								<b><?= $_SESSION["message"] ?? null; ?></b>
-							</p>
-						</div>
-					</div>
-					<div class="row tm-edit-product-row">
-						<div class="col-xl-12 col-lg-12 col-md-12">
-							<form action="/generate" method="POST" class="tm-edit-product-form">
-								<div class="form-group mb-3">
-									<label for="first_name">First Name</label>
-									<input id="first_name" name="first_name" type="text" class="form-control validate" required/>
-								</div>
-								<div class="form-group mb-3">
-									<label for="last_name">Last Name</label>
-									<input id="last_name" name="last_name" type="text" class="form-control validate" required/>
-								</div>
-								<div class="form-group mb-3">
-									<label for="middle_name">Middle Name</label>
-									<input id="middle_name" name="middle_name" type="text" class="form-control validate" required/>
-								</div>
-								<div class="form-group mb-3">
-									<label for="birthday">Birthday</label>
-									<input id="birthday" name="birthday" type="date" class="form-control validate" required/>
-								</div>
-								<div>
-									<button type="submit" class="btn btn-primary btn-block text-uppercase mb-3">Generate
-									</button>
-								</div>
-								<?php if (file_exists('uploads/docs/generate.docx')) : ?>
-								<div>
-									<a href="/uploads/docs/generate.docx" class="btn btn-primary btn-block text-uppercase mb-3">Download
-									</a>
-								</div>
-								<?php endif; ?>
-							</form>
-						</div>
-					</div>
+			{% if posts|default is empty %}
+				<div class="alert alert-danger text-center">
+					<strong>No posts found.</strong>
 				</div>
-			</div>
+			{% else %}
+				{% for post in posts %}
+					<div class="col-sm-4 mb-5 pb-4">
+						<div class="card" style="width: 18rem;">
+							<img class="card-img-top" src="{{ asset(post.image) }}" alt="Card image cap">
+							<div class="card-body">
+								<h5 class="card-title">{{ post.title }}</h5>
+								<p class="card-text">{{ post.body|u.truncate(30, '...') }}</p>
+								<a href="{{ path('app_post_show', {id: post.id}) }}" class="btn btn-primary">Show</a>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			{% endif %}
 		</div>
 	</div>
 {% endblock %}

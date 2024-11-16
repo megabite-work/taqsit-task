@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+	<div class="container tm-mt-big tm-mb-big">
+		<div class="row">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
+				<div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+					<div class="row">
+						<div class="col-12 text-center">
+							<h2 class="tm-block-title d-inline-block">Create New Post</h2>
+							{% for message in app.flashes('error') %}
+								<p class="text-danger h5">
+									{{ message }}
+								</p><br>
+							{% endfor %}
+						</div>
+					</div>
+					<div class="row tm-edit-product-row">
+						<div class="col-xl-12 col-lg-12 col-md-12">
+							<form action="{{ path('app_post_store') }}" method="POST" enctype="multipart/form-data" class="tm-edit-product-form">
+								<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+								<div class="form-group mb-3">
+									<label for="title">Title</label>
+									<input id="title" name="title" type="text" class="form-control validate" required value="{{ app.session.get('data').title|default('') }}"/>
+								</div>
+								<div class="form-group mb-3">
+									<label for="body">Body</label>
+									<textarea id="body" name="body" class="form-control validate" required rows="8">{{ app.session.get('data').body|default('') }}</textarea>
+								</div>
+								<div class="form-group mb-3">
+									<div id="post_image_preview" class="d-none">
+										<img src="" alt="image" width="200">
+									</div>
+									<label for="post_image">Image</label>
+									<input id="post_image" name="image" type="file" class="form-control validate" required/>
+								</div>
+								<div>
+									<button type="submit" class="btn btn-primary btn-block text-uppercase mb-3">Create</button>
+								</div>
+								<div>
+									<a href="{{ path('app_home') }}" class="btn btn-secondary btn-block text-uppercase mb-3">Back</a>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

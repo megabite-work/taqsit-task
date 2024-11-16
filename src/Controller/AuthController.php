@@ -17,12 +17,20 @@ class AuthController extends AbstractController
     #[Route('/login', name: 'app_show_login', methods: ['GET'])]
     public function showLogin(): Response
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_home');
+        }
+        
         return $this->render('auth/login.html.twig');
     }
 
     #[Route('/register', name: 'app_show_register', methods: ['GET'])]
     public function showRegister(): Response
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_home');
+        }
+        
         return $this->render('auth/register.html.twig');
     }
 

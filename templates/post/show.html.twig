@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+	<div class="container tm-mt-big tm-mb-big">
+		<div class="row">
+			<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
+				<div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+					<div class="row">
+						<div class="col-12 text-center">
+							<h2 class="tm-block-title d-inline-block">{{ post.title }}</h2>
+						</div>
+					</div>
+					<div class="row tm-edit-product-row">
+						<div class="col-xl-12 col-lg-12 col-md-12">
+							<div class="text-center">
+								<img src="{{ asset(post.image) }}" alt="image" width="400">
+							</div>
+							<div class="text-center h5">
+								{{ post.body }}
+							</div>
+							{% if post.user.id == app.user.id %}
+								<form action="{{ path('app_post_delete', {id: post.id}) }}" method="POST" class="tm-edit-product-form">
+									<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+									<input type="hidden" name="_method" value="DELETE">
+									<div>
+										<button type="submit" class="btn btn-danger btn-block text-uppercase mb-3">Delete</button>
+									</div>
+								</form>
+								<div>
+									<a href="{{ path('app_post_edit', {id: post.id}) }}" class="btn btn-success btn-block text-uppercase mb-3">Edit</a>
+								</div>
+							{% endif %}
+							<div>
+								<a href="{{ path('app_home') }}" class="btn btn-secondary btn-block text-uppercase mb-3">Back</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

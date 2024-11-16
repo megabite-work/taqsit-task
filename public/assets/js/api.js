@@ -38,15 +38,13 @@ const del = async (url, body = null) => {
 };
 
 $(document).ready(async function () {
-  $(document).on("click", "#login_form_btn", async () => {
-    let email = $('.tm-login-form input[name="email"]').val();
-    let password = $('.tm-login-form input[name="password"]').val();
-
-    if (!email && !password) {
-      alert("All fields must be filled in.");
-    }
-    let body = { email, password };
-
-    let errors = await post("/auth/login", body);
+  $("#post_image").on("change", function (event) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      $("#post_image_preview").removeClass('d-none');
+      $("#post_image_preview").addClass('d-block');
+      $("#post_image_preview img").attr("src", e.target.result);
+    };
+    reader.readAsDataURL(event.target.files[0]);
   });
 });
