@@ -26,13 +26,12 @@ class RegisterAction
             $this->hashPassword($user, $dto->password);
             $this->em->persist($user);
             $this->em->flush();
-            $this->requestStack->getSession()->set('email', $dto->email);
-            $this->requestStack->getSession()->set('password', $dto->password);
+            $this->requestStack->getSession()->set('data', ['email' => $dto->email, 'password' => $dto->password]);
             $this->requestStack->getSession()->getFlashBag()->add('success', 'You have successfully registered in.');
 
             return new RedirectResponse('/login');
         } catch (\Throwable $th) {
-            $this->requestStack->getSession()->set('email', $dto->email);
+            $this->requestStack->getSession()->set('data', ['email' => $dto->email, 'password' => $dto->password]);
             $this->requestStack->getSession()->getFlashBag()->add('error', 'Register failed.');
 
             return new RedirectResponse('/register');

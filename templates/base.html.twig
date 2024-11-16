@@ -41,12 +41,10 @@
 					</div>
 				{% endif %}
 			</nav>
-			{% for type, messages in app.flashes %}
-				{% for message in messages %}
-					<div class="alert alert-{{ type }} col-12 text-center h5">
+			{% for message in app.flashes('success') %}
+					<div class="alert alert-success col-12 text-center h5">
 						{{ message }}
 					</div>
-				{% endfor %}
 			{% endfor %}
 			{% block content %}{% endblock %}
 			<script src="{{ asset('assets/js/jquery-3.7.0.min.js') }}"></script>

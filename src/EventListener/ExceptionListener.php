@@ -6,7 +6,7 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
-use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\Validator\Exception\ValidationFailedException;
 
 #[AsEventListener(event: 'kernel.exception')]
 class ExceptionListener
@@ -17,15 +17,14 @@ class ExceptionListener
         $message = $exception->getMessage();
         $response = new Response();
         
-        if ($exception instanceof HttpExceptionInterface) {
+        if ($exception->getPrevious() instanceof ValidationFailedException) {
             $referer = $event->getRequest()->headers->get('referer');
             $event->getRequest()->getSession()->set('data', $event->getRequest()->getPayload()->all());
-            $event->getRequest()->getSession()->getFlashBag()->add('danger', $message);
+            $event->getRequest()->getSession()->getFlashBag()->clear();
+            $event->getRequest()->getSession()->getFlashBag()->add('error', $message);
             $response = new RedirectResponse($referer);
-        } else {
-            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-
+        
         $event->setResponse($response);
     }
 }

@@ -27,13 +27,13 @@ class AuthController extends AbstractController
     }
 
     #[Route('/auth/login', name: 'app_login', methods: ['POST'])]
-    public function login(#[MapRequestPayload(validationFailedStatusCode: 0)] LoginDto $dto, LoginAction $action): Response
+    public function login(#[MapRequestPayload] LoginDto $dto, LoginAction $action): Response
     {
         return $action($dto);
     }
 
     #[Route('/auth/register', name: 'app_register', methods: ['POST'])]
-    public function register(#[MapRequestPayload(validationFailedStatusCode: 0)] RegisterDto $dto, RegisterAction $action): Response
+    public function register(#[MapRequestPayload] RegisterDto $dto, RegisterAction $action): Response
     {
         return $action($dto);
     }
