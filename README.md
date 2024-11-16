@@ -3,4 +3,6 @@
 3. composer install
 4. cp .env .env.local
 5. add database credentials to .env.local file
-6. run symfony or other server
+6. php bin/console d:d:c
+7. php bin/console d:m:m
+8. run symfony or other server
