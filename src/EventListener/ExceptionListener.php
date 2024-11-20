@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
 
-// #[AsEventListener(event: 'kernel.exception')]
+#[AsEventListener(event: 'kernel.exception')]
 class ExceptionListener
 {
     public function __invoke(ExceptionEvent $event): void

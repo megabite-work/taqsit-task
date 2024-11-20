@@ -8,9 +8,11 @@ use App\Action\Post\IndexAction;
 use App\Action\Post\ShowAction;
 use App\Action\Post\UpdateAction;
 use App\Dto\Post\RequestDto;
+use App\Resolver\CustomResolver;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -42,30 +44,14 @@ class PostController extends AbstractController
     }
 
     #[Route('/', name: 'app_post_store', methods: ['POST'])]
-    public function store(Request $request, ValidatorInterface $validator, CreateAction $action): Response
+    public function store(#[MapRequestPayload(resolver: CustomResolver::class, validationGroups: ['post:create'])] RequestDto $dto, CreateAction $action): Response
     {
-        $dto = new RequestDto($request->get('title'), $request->get('body'), $request->files->get('image'));
-        $errors = $validator->validate($dto, groups: ['post:create']);
-        $errors->count();
-
-        if ($errors->count()) {
-            throw new ValidationFailedException($dto, $errors);
-        }
-
         return $action($dto);
     }
 
     #[Route('/{id<\d+>}/update', name: 'app_post_update', methods: ['PATCH', 'PUT', 'POST'])]
-    public function update(Request $request, ValidatorInterface $validator, UpdateAction $action, int $id): Response
+    public function update(#[MapRequestPayload(resolver: CustomResolver::class, validationGroups: ['post:update'])] RequestDto $dto, UpdateAction $action, int $id): Response
     {
-        $dto = new RequestDto($request->get('title'), $request->get('body'), $request->files->get('image'));
-        $errors = $validator->validate($dto, groups: ['post:update']);
-        $errors->count();
-
-        if ($errors->count()) {
-            throw new ValidationFailedException($dto, $errors);
-        }
-        
         return $action($id, $dto);
     }
 
